@@ -4,7 +4,7 @@ const isLoggedIn = require('./middleware/isLoggedIn');
 // CRUD middleware routing
 const createTodoRoute = require('./routes/createTodoRoute');
 const readTodosRoute = require('./routes/readTodosRoute');
-const updateTodoRoute = require('./routes/deleteTodoRoute');
+const updateTodoRoute = require('./routes/updateTodoRoute');
 const deleteTodoRoute = require('./routes/deleteTodoRoute');
 
 const router = express.Router();
