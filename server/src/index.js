@@ -3,6 +3,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const cors = require('cors');
+const mongoose = require('mongoose');
 
 const router = require('./router.js'); // loads in router.js
 
@@ -24,8 +25,9 @@ app.use(cors());
 logs HTTP requests and errors */
 app.use(morgan('tiny'));
 
-app.use(require('./middleware/isLoggedIn'));
-
 app.use(router); // enables putting route definitions in another file
 
-app.listen(8080);
+mongoose.connect(process.env.MONGO_URI).then(() => {
+  console.log('starting on port 8080');
+  app.listen(8080);
+});
