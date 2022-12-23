@@ -1,30 +1,26 @@
+import React, { useContext, useState } from 'react';
+import { Route, Routes, Navigate } from 'react-router';
 import './App.css';
-// import { useEffect, useState } from 'react';
-import readTodosRequest from './api/readTodosRequest';
-import { useQuery } from 'react-query';
-import ClipLoader from 'react-spinners/ClipLoader';
-import { TodoItem } from './components/TodoItem';
-import { CreateTodoForm } from './components/CreateTodoForm';
+import { LoginPage } from './pages/LoginPage';
+import { TodoPage } from './pages/TodoPage';
+
+export const TokenContext = React.createContext(null);
+
+const ProtectedRoute = ({ element }) => {
+  const [token, setToken] = useContext(TokenContext);
+  return token ? element() : <Navigate to='/login' />;
+};
 
 function App() {
-  const { isLoading, data: todos } = useQuery('todos', readTodosRequest);
-  // [state var from backend, setter func to update state]
-  // const [todos, setTodos] = useState([]);
-
-  // invoked (2x) when component mounts (strict mode)
-  // useEffect(() => {
-  //   readTodosRequest().then(setTodos);
-  // }, []);
-
+  const [token, setToken] = useState(null);
   return (
     <div className='App'>
-      <h1>This is list.</h1>
-      {isLoading ? (
-        <ClipLoader size={150} />
-      ) : (
-        todos.map((todo) => <TodoItem todo={todo} key={todo._id} />)
-      )}
-      <CreateTodoForm />
+      <TokenContext.Provider value={[token, setToken]}>
+        <Routes>
+          <Route path='/' element={<ProtectedRoute element={TodoPage} />} />
+          <Route path='login' element={<LoginPage />} />
+        </Routes>
+      </TokenContext.Provider>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useQueryClient, useMutation } from 'react-query';
-import deleteTodoRequest from '../api/deleteTodoRequest';
+import deleteTodoRequest from '../api/deleteTodoRequest.js';
 import updateTodoRequest from '../api/updateTodoRequest';
 import { debounce } from 'lodash';
 
